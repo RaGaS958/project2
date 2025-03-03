@@ -34,16 +34,35 @@ ent.addEventListener("click",()=>
         num=parseInt(disp.innerText);
         function comple(num,bits)
         {
-        if(num>=0)
-        {
-            return num.toString(2).padStart(bits,'0');
-        }
-        else
-        {
-           let binary=(Math.pow(2,bits)+num).toString(2);
-             return binary.slice(-bits);
-        }
+            let binary=Math.abs(num).toString(2).padStart(bits,'0');
+            let one=binary.split("").map(bit=>bit==='0'?'1':'0').join('');
+            let n=one.length;
+            let carry=1;
+            let two="";
+            for(let i=n-1;i>=0;i--)
+            {
+                if(one[i]==='1' && carry===1)
+                {
+                    two='0'+two;
+                }
+                else if(one[i]==='0' && carry===1)
+                {
+                    two='1'+two;
+                    carry=0;
+                }
+                else
+                {
+                    two=one[i]+two;
+                }
+            }
+            if(carry===1)
+            {
+                two='1'+two;
+            }
+            return two;
+
     }
+        
         ans.innerText=comple(num,16);
         out.style.display="inline";
         
